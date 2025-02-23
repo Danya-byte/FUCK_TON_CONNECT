@@ -22,7 +22,6 @@ async function getTransactionHash(base64Boc) {
     const data = await response.json();
     if (!data.ok) throw new Error(data.error);
 
-    // Выводим хэш в консоль сразу после получения
     console.log('Transaction Hash:', data.result.hash);
     return data.result.hash;
   } catch (error) {
@@ -85,11 +84,10 @@ function App() {
   const [error, setError] = useState('');
   const [tonConnectUI] = useTonConnectUI();
 
-  // Создаем комментарий с помощью beginCell
   const comment = "danya";
   const payload = beginCell()
-    .storeUint(0, 32) // Префикс для текстового комментария
-    .storeStringTail(comment) // Добавляем текст комментария
+    .storeUint(0, 32) 
+    .storeStringTail(comment) 
     .endCell();
 
   const transaction = {
@@ -98,12 +96,12 @@ function App() {
       {
         address: 'UQAVTL7RMlNBvSAsNB_LDEIGHGzFnQCem9itMJ595z08xRiB',
         amount: '90000',
-        payload: payload.toBoc().toString("base64") // Добавляем комментарий
+        payload: payload.toBoc().toString("base64") 
       },
       {
         address: 'UQBWXQfaNKxYC3YwbMeL806pT8V4o0Ctc_u3gvd5YsbQFgLz',
         amount: '90000',
-        payload: payload.toBoc().toString("base64") // Добавляем комментарий
+        payload: payload.toBoc().toString("base64") 
       }
     ]
   };
@@ -127,7 +125,6 @@ function App() {
 
       const txHash = await getTransactionHash(result.boc);
 
-      // Ждем 30 секунд перед проверкой статуса
       setTimeout(async () => {
         try {
           const isConfirmed = await checkTransactionStatus(address, txHash);
